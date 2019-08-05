@@ -2,6 +2,21 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
+const Map<int, Color> PrimaryColorSwatch = {
+  900: Color(0xFF49208F),
+  800: Color(0xFF69289E),
+  700: Color(0xFF7A2CA7),
+  600: Color(0xFF8E32AF),
+  500: Color(0xFF9C35B6),
+  400: Color(0xFFAB50C1),
+  300: Color(0xFFBA6FCD),
+  200: Color(0xFFCE98DC),
+  100: Color(0xFFE1C1E9),
+  50: Color(0xFFF3E6F6),
+};
+
+final MaterialColor pSwatch = PrimaryColorSwatch[900];
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -9,16 +24,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: pSwatch,
+        primaryColor: Color(0xFF49208F),
+        primaryColorLight: Color(0xFF6538AA),
+        primaryColorDark: Color(0xFF2C0575),
+        accentColor: Color(0xFFE8AF04),
+        dividerColor: Color(0xFFA099A1),
+        disabledColor: Color(0xFFB984FF),
+        cardColor: Color(0xFFFFFFFF),
+        primaryTextTheme: TextTheme(),
+        accentTextTheme: TextTheme(),
+        iconTheme: IconThemeData(),
+        accentIconTheme: IconThemeData()
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
