@@ -58,7 +58,7 @@ class NoteCardState extends State<NoteCard> {
               Row(children: <Widget>[ 
                 Expanded(
                   child: Container(
-                    height: 90.0,
+                    height: childOfGrid ? 30.0 : 90.0,
                     child: Text("${noteData.content}", style: TextStyle(fontSize: ((MediaQuery.of(context).size.width / 100).floor() * 4).toDouble())),
                   ),
                 )
