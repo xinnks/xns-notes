@@ -1,3 +1,3 @@
-# xns_notes
+# xns notes
 
-An app to create and save notes offline.
+A note listing app.
