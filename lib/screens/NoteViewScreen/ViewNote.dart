@@ -38,7 +38,16 @@ class _ViewNoteState extends State<ViewNote> {
     colorsList = utility.colors;
     _folderId = widget.noteNavData.folderId;
     initData();
+    
+    noteData = widget.noteNavData;
+    _title = widget.noteNavData.title;
+    titleController.text = widget.noteNavData.title;
+    _content = widget.noteNavData.content;
+    contentController.text = widget.noteNavData.content;
+    _color = widget.noteNavData.color;
+    _colorCol = utility.getColor(_color);
     colorsDropdownItems = populateColorsDropdown(colorsList);
+    
     super.initState();
 
   }
@@ -49,17 +58,6 @@ class _ViewNoteState extends State<ViewNote> {
 
   initData() async {
     await fetchFolders();
-    await getNoteData(widget.noteNavData.id).then((res) => {
-      setState((){
-        noteData = res;
-        _title = res.title;
-        titleController.text = res.title;
-        _content = res.content;
-        contentController.text = res.title;
-        _color = res.color;
-        _colorCol = utility.getColor(_color);
-      })
-    });
   }
 
   fetchFolders() async {
@@ -229,9 +227,8 @@ class _ViewNoteState extends State<ViewNote> {
             onTap: () async {
               if(_title != "" && _content != "" && _color != "" && !_folderId.isNaN){
                 final Note newNote = Note(id: noteData.id, title: "$_title", content: "$_content", color: "$_color", folderId: _folderId);
-                await db.updateNote(newNote).then((res) => {
-                  Navigator.pushNamed(context, '/')
-                });
+                await db.updateNote(newNote);
+                Navigator.pushNamed(context, '/');
               }
             },
           ),
