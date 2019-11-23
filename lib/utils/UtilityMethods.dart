@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class UtilityMethods {
 
   List<String> noteColors = [
-    "grey"
+    "grey",
     "red",
     "green",
     "blue",
-    "yellow",
+    "amber",
   ];
 
   get colors => noteColors;
