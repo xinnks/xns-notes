@@ -116,7 +116,7 @@ class XnsDatabase extends ChangeNotifier {
     final Database db = await database; // get reference to db
 
     final List<Map<String, dynamic>> maps = await db.query(notesTable,
-    columns: [idCol,titleCol,contentCol,colorCol],
+    columns: [idCol, titleCol, contentCol, colorCol, noteFolderId],
     where: "folder_id = ?",
     whereArgs: [folderId]); // query table for all notes
 
@@ -200,7 +200,7 @@ class XnsDatabase extends ChangeNotifier {
 
     // get note by id
     List<Map> results = await db.query(notesTable,
-    columns: [idCol, titleCol, contentCol, colorCol],
+    columns: [idCol, titleCol, contentCol, colorCol, noteFolderId],
     where: 'id = ?',
     whereArgs: [id]);
 
@@ -222,7 +222,7 @@ class XnsDatabase extends ChangeNotifier {
     final Database db = await database; // get reference to db
 
     final List<Map<String, dynamic>> results = await db.query(notesTable,
-    columns: [idCol,titleCol,contentCol,colorCol],
+    columns: [idCol, titleCol, contentCol, colorCol, noteFolderId],
     where: "title LIKE '%"+query+"%'",
     // whereArgs: [query] // query table for notes with title == %$query%
     );
