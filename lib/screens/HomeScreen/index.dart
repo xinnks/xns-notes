@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:xns_notes/services/XnsDatabase.dart';
 import 'package:xns_notes/models/Note.dart';
 import 'package:xns_notes/models/NoteNavigationArguments.dart';
+import 'package:xns_notes/utils/UtilityMethods.dart';
 // import 'package:xns_notes/screens/HomeScreen/searchContainer.dart';
 
 import 'NewNoteButton.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // If no note exists show empty home screen
   bool noNotes = false;
   final XnsDatabase db = new XnsDatabase();
+  final utility = new UtilityMethods();
   bool searchViewActive = false;
   String searchQuery = "";
 
@@ -122,6 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     boxShadow: [BoxShadow(color: Colors.black12,offset: Offset(1.0,0.0), blurRadius: 3.0, spreadRadius: 0.0)]
                   ),
                   child: TextField(
+                    onTap: (){
+                      setState((){
+                        searchViewActive = true;
+                      });
+                    },
                     controller:  TextEditingController.fromValue(
                       searchQuery != "" ? TextEditingValue(text: searchQuery, selection: TextSelection.collapsed(offset: searchQuery.length)) : TextEditingValue(text: searchQuery)
                     ),
@@ -176,31 +183,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget searchResultsContainer() => Positioned(
     top: 60, left: 10.0, right: 10.0,bottom: 5,
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: (MediaQuery.of(context).size.height - (125+250+30+4+30)).floor().toDouble(),
-            child: Consumer<XnsDatabase>(
-              builder: (context, db, child){
-                return FutureBuilder(
-                  future: db.searchForNote(searchQuery),
-                  builder: (context, snapshot){
-                    if(snapshot.hasData){
-                      return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, i){
-                          return searchResultsListItem(context, snapshot.data[i]);
-                        },
-                      );
-                    } else {
-                      return Container();
-                    }
+      child: Consumer<XnsDatabase>(
+        builder: (context, db, child){
+          return FutureBuilder(
+            future: db.searchForNote(searchQuery),
+            builder: (context, snapshot){
+              if(snapshot.hasData){
+                return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, i){
+                    return searchResultsListItem(context, snapshot.data[i]);
                   },
                 );
-              },
-            ),
-          ),
-        ]
+              } else {
+                return Container();
+              }
+            },
+          );
+        },
       )
   );
 
@@ -215,17 +215,25 @@ class _HomeScreenState extends State<HomeScreen> {
             margin: EdgeInsets.only(top: 2.0),
             child: Row(
               children: <Widget>[
-                Expanded(child: Text("${note.title}", style: TextStyle(fontSize: 25.0, color: Color(0xFF49208F)),),),
+                Expanded(child: Text("${note.title}", style: TextStyle(fontSize: 20.0, color: Color(0xFF49208F)),),),
               ],
             ),
             decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 255, 255, .5),
-                borderRadius: BorderRadius.circular(8.0),
+                color: Color.fromRGBO(255, 255, 255, .9),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8.0), topLeft: Radius.circular(8.0)),
             ),
           ),
           onTap: () {
             Navigator.pushNamed(context, '/noteview', arguments: NoteNavigationArguments(note));
           },
+        ),
+      ),
+      Container(
+        width: 20.0,
+        height: 50.0,
+        decoration: BoxDecoration(
+          color: utility.getColor("${note.color}"),
+           borderRadius: BorderRadius.only(bottomRight: Radius.circular(8.0), topRight: Radius.circular(8.0)),
         ),
       ),
     ],
