@@ -6,7 +6,7 @@ class Note {
   final String color; // color notation of note
   final int folderId; // folder category of note
 
-  Note({this.id, this.title, this.content, this.color, this.folderId = 0});
+  Note({this.id, this.title, this.content, this.color, this.folderId = 1});
 
   Map<String, dynamic> toMap() => {
     'id': id,
