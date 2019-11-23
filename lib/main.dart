@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
-import './screens/index.dart';
+import 'package:provider/provider.dart';
+import 'package:xns_notes/services/XnsDatabase.dart';
+import 'package:xns_notes/screens/FolderScreen/index.dart';
+import 'screens/HomeScreen/index.dart';
+import 'screens/NoteViewScreen/index.dart';
 
-void main() => runApp(XnsNotes());
+void main() { 
+  runApp(
+    ChangeNotifierProvider(
+      builder: (context) => XnsDatabase(),
+      child: XnsNotes(),
+    )
+  );
+}
 
 const Map<int, Color> PrimaryColorSwatch = {
   900: Color(0xFF49208F),
@@ -19,12 +30,12 @@ const Map<int, Color> PrimaryColorSwatch = {
 final MaterialColor pSwatch = MaterialColor(0xFF49208F, PrimaryColorSwatch);
 
 class XnsNotes extends StatelessWidget {
-  final appIndex = App();
+  // final appIndex = App();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'xns notes',
       theme: ThemeData(
         primarySwatch: pSwatch,
         primaryColor: Color(0xFF49208F),
@@ -39,7 +50,17 @@ class XnsNotes extends StatelessWidget {
         iconTheme: IconThemeData(),
         accentIconTheme: IconThemeData()
       ),
-      routes: appIndex.routes,
+      // routes: appIndex.routes,
+      onGenerateRoute: (RouteSettings settings) {
+        final routes = <String, WidgetBuilder> {
+          '/': (context) => HomeScreen(),
+          FolderScreen.RouteName: (context) => FolderScreen(settings.arguments),
+          NoteViewScreen.RouteName: (context) => NoteViewScreen(settings.arguments),
+        };
+
+        WidgetBuilder builder = routes[settings.name];
+        return MaterialPageRoute(builder: (context) => builder(context));
+      },
     );
   }
 }
