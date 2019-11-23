@@ -65,8 +65,6 @@ class _ViewNoteState extends State<ViewNote> {
       setState((){
         _folders = res;
         _selectedFolder = getSelectedFolder(widget.noteNavData.folderId);
-        print("NOTE's FOLDER ID AT BEGINING - ${widget.noteNavData.folderId}");
-        print("SELECTED FOLDER AT BEGINING - $_selectedFolder");
         folderDropdownItems = formulateFolderDropdownItems(res);
       })
     });
